@@ -1,18 +1,19 @@
 import Header from './components/Header/header'
-import getUsersAPI from './services/userService'
+import UserAPI from './services/userService'
 import { useEffect, useState } from 'react'
 import './App.css'
+import AppRoutes from './routes/AppRoutes'
 function App() {
   const [message, setMessage] = useState()
 
-  useEffect(()=>{
-    const data = getUsersAPI()
-    data.then(item => setMessage(item.message))
+  useEffect( ()=>{
+    const api =  UserAPI.getUsersAPI()
+    api.then(data => setMessage(data.message)).then(console.log(message))
   }, [])
   return (
     <>
       <Header />
-      <h1>{message}</h1>
+      <AppRoutes />
     </>
   )
 }

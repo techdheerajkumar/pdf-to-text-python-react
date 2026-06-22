@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 const Header = () => {
     const styles = {
         header: {
@@ -47,16 +48,18 @@ const Header = () => {
             </div>
 
             <nav style={styles.nav}>
-                <a style={styles.link} href="#">All</a>
-                <a style={styles.link} href="#">Business</a>
-                <a style={styles.link} href="#">Education</a>
-                <a style={styles.link} href="#">Personal</a>
+                <ul className="d-flex mb-0">
+                    <li className="d-inline-block"><Link to="/">Home</Link></li>
+                    {/* <li className="d-inline-block"><a style={styles.link} href="#">Business</a></li>
+                    <li className="d-inline-block"><a style={styles.link} href="#">Education</a></li>
+                    <li className="d-inline-block"><a style={styles.link} href="#">Personal</a></li> */}
+                </ul>      
             </nav>
 
             <div style={styles.actions}>
-                <button style={styles.button}>Profile</button>
-                <button style={styles.button}>Login</button>
-                <button style={styles.button}>Register</button>
+                {/* <button style={styles.button}>Profile</button>
+                <button style={styles.button}>Login</button> */}
+                <Link to='/register' style={styles.button}>Register</Link>
             </div>
         </header>
     )

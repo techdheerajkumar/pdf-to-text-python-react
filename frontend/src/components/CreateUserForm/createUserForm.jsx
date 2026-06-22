@@ -1,4 +1,5 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
+import CreateUser from '../../services/userService'
 import './createUserForm.css'
 const CreateUserForm = () => {
     const [formValues, setFormValues] = useState({
@@ -24,8 +25,7 @@ const CreateUserForm = () => {
             alert("Passwords do not match");
             return;
         }
-
-        console.log("Registering user:", formValues);
+        CreateUser.postUserInfo(formValues)
         // Add registration logic here
     };
 

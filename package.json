@@ -1,0 +1,26 @@
+{
+  "name": "pdf-to-text",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "frontend": "cd frontend && npm run dev",
+    "backend": "cd backend/app && uvicorn app:app --reload",
+    "dev": "concurrently \"npm run frontend\" \"npm run backend\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/techdheerajkumar/pdf-to-text-python-react.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/techdheerajkumar/pdf-to-text-python-react/issues"
+  },
+  "homepage": "https://github.com/techdheerajkumar/pdf-to-text-python-react#readme",
+  "devDependencies": {
+    "concurrently": "^10.0.3"
+  }
+}

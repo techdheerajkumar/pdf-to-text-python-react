@@ -15,9 +15,10 @@ const postUserInfo = async (userData) =>{
         },
         body: JSON.stringify(userData)
     })
+    
 
     if(!response.ok){
-        throw new Error("Failed to create a user")
+      await response.json().then(err => console.log(err.detail))
     }
 
     return response.json()

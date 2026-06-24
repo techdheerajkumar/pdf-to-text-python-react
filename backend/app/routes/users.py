@@ -1,7 +1,9 @@
 from fastapi import APIRouter, HTTPException
 from schemas.user_schema import User_Schema
 from schemas.user_schema import User_Response_Schema
+from schemas.user_schema import User_login_schema
 from security.utils.security import hash_password
+from security.utils.security import verify_password
 user_router  = APIRouter()
 
 
@@ -11,9 +13,18 @@ def all_users():
     return users
 
 
-@user_router.get('/user/login')
-def login_page():
-    return {"message": "Please login to continue"}
+@user_router.post('/user/login')
+def login_page(user:User_login_schema):
+    
+    for existing_user in users:
+        if existing_user.email == user.email:
+            is_password_true = verify_password(user.password, existing_user.password)
+            if is_password_true:
+                return {"message": "Login Successful!!"}
+            return {"message": "Invalid credentials"}
+            
+   
+    return {"message": "Invalid credentials"}
 
 
 @user_router.post('/user/register')

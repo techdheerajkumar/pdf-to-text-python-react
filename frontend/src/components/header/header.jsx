@@ -59,6 +59,7 @@ const Header = () => {
             <div style={styles.actions}>
                 {/* <button style={styles.button}>Profile</button>
                 <button style={styles.button}>Login</button> */}
+                <Link to='/login' style={styles.button}>Login</Link>
                 <Link to='/register' style={styles.button}>Register</Link>
             </div>
         </header>

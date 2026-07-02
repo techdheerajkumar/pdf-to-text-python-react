@@ -1,0 +1,12 @@
+.error{
+    border-color: #f00!important;
+}
+
+.success{
+    border-color: #0f0!important;
+}
+.error-msg{
+    color: #f00;
+    font-size: 13px;
+    margin: 0;
+}

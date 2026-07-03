@@ -1,13 +1,12 @@
 import API_BASE_URL from "../configs/api";
 
-
-const getUsersAPI = async () =>{
+const getUsersAPI = async () => {
     const getUser = await fetch(`${API_BASE_URL}/user/users-list`);
     const message = await getUser.json();
     return message
 }
 
-const postUserInfo = async (userData) =>{
+const postUserInfo = async (userData) => {
     const response = await fetch(`${API_BASE_URL}/user/register`, {
         method:"POST",
         headers:{
@@ -24,7 +23,7 @@ const postUserInfo = async (userData) =>{
     return response.json()
 }
 
-const loginUser = async (user) =>{
+const loginUser = async (user) => {
     const response = await fetch(`${API_BASE_URL}/user/login`, {
         method: "POST",
         headers:{

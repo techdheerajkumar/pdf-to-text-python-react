@@ -20,19 +20,19 @@ def create_access_token(user_id:str, email:str):
     token = jwt.encode(
         payload,
         SECRET_KEY,
-        algorithms=ALGORITHM
+        algorithm=ALGORITHM
     )
 
     return token
 
 def verify_access_token(token:str):
+    print(token)
     try:
         payload = jwt.decode(
             token,
             SECRET_KEY,
             algorithms=[ALGORITHM]
         )
-
         return payload
     
     except ExpiredSignatureError:
@@ -41,8 +41,9 @@ def verify_access_token(token:str):
             detail="Token has expired"
         )
     
-    except InvalidTokenError:
+    except Exception as e:
+        print(e)
         raise HTTPException(
             status_code=401,
-            detail="Invalid token"
+            detail=str(e)
         )

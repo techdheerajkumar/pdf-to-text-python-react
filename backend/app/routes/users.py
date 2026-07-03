@@ -24,7 +24,7 @@ def login_page(user:User_login_schema):
             is_password_true = verify_password(user.password, existing_user.password)
             if is_password_true:
                 token = create_access_token(
-                    existing_user.id, existing_user.email
+                    existing_user.id, existing_user.email, existing_user.firstName
                 )
                 return{
                     "message": "Login Successful!",

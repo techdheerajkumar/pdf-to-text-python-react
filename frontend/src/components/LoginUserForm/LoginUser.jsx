@@ -18,6 +18,7 @@ const LoginUser = () => {
             localStorage.setItem(
                 "token", data.access_token
             )
+            console.log(localStorage.getItem('token'))
             setMessage(data.message)
             setIsValid(true)
             navigate('/dashboard')

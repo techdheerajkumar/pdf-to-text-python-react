@@ -41,4 +41,16 @@ const loginUser = async (user) => {
     return data;
 }
 
-export default { getUsersAPI, postUserInfo, loginUser }
+const getUser = async () => {
+    const token = localStorage.getItem('token');
+    const response = await fetch(`${API_BASE_URL}/user/me`, {
+        headers: {
+            Authorization: `Bearer ${token}`
+        }
+    })
+
+    const user = response.json();
+    return user
+}
+
+export default { getUsersAPI, postUserInfo, loginUser, getUser }

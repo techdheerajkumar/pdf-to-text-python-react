@@ -46,7 +46,6 @@ def login_page(user:User_login_schema):
 def register_user(user:User_Response_Schema):
     user_data = user.model_dump()
     user_data['password'] = hash_password(user_data['password']);
-    print(user_data)
     new_user = User_Schema(**user_data)
     for user in users:
         if user.email == new_user.email:

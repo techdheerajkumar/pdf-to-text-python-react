@@ -1,16 +1,20 @@
 from fastapi import APIRouter, HTTPException, Depends
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 from schemas.user_schema import User_Schema
-from schemas.user_schema import User_Response_Schema
+from schemas.user_schema import User_Create_Schema
 from schemas.user_schema import User_login_schema
 from security.utils.security import hash_password
 from security.utils.security import verify_password
 from auth.jwt_handler import create_access_token
 from auth.jwt_handler import verify_access_token
+from sqlalchemy import select
+from sqlalchemy.orm import Session
+from database.database import get_db
+from database.models import User
 user_router  = APIRouter()
 security = HTTPBearer()
 
-users:list[User_Schema] = []
+users:User
 @user_router.get('/user/users-list')
 def all_users():
     return users
@@ -43,21 +47,17 @@ def login_page(user:User_login_schema):
 
 
 @user_router.post('/user/register')
-def register_user(user:User_Response_Schema):
+def register_user(user:User_Create_Schema, db: Session = Depends(get_db)):
     user_data = user.model_dump()
     user_data['password'] = hash_password(user_data['password']);
-    new_user = User_Schema(**user_data)
-    for user in users:
-        if user.email == new_user.email:
-            raise HTTPException(
-                status_code=409,
-                detail="Email already exists"
-            )
-        
-    users.append(new_user)
+    new_user = User(**user_data)
+    db.add(new_user)
+    db.commit()
+    db.refresh(new_user)
     return {
         "message": "User registered successfully!"
     }
+
 
 @user_router.get('/user/me')
 def get_logged_in_user(credentials:HTTPAuthorizationCredentials =  Depends(security)):

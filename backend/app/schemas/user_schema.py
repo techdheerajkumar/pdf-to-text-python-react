@@ -24,7 +24,7 @@ class User_Schema(BaseModel):
     def trim_value(cls, v:str) -> str:
         return v.strip()
 
-class User_Response_Schema(BaseModel):
+class User_Create_Schema(BaseModel):
     firstName: str 
     lastName: str
     email: str

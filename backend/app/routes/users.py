@@ -1,6 +1,6 @@
 from fastapi import APIRouter, HTTPException, Depends
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
-from schemas.user_schema import User_Schema
+from schemas.user_schema import User_Response_Schema
 from schemas.user_schema import User_Create_Schema
 from schemas.user_schema import User_login_schema
 from security.utils.security import hash_password
@@ -14,31 +14,33 @@ from database.models import User
 user_router  = APIRouter()
 security = HTTPBearer()
 
-users:User
-@user_router.get('/user/users-list')
-def all_users():
-    return users
+@user_router.get('/user/users-list',  response_model = list[User_Response_Schema])
+def all_users(db: Session = Depends(get_db)):
+    stmt = select(User)
+    result = db.execute(stmt)
+    return result.scalars().all()
 
 
 @user_router.post('/user/login')
-def login_page(user:User_login_schema):
-    
-    for existing_user in users:
-        if existing_user.email == user.email:
-            is_password_true = verify_password(user.password, existing_user.password)
-            if is_password_true:
-                token = create_access_token(
-                    existing_user.id, existing_user.email, existing_user.firstName
-                )
-                return{
-                    "message": "Login Successful!",
-                    "access_token": token,
-                    "token_type": "Bearer"
-                }
-            raise HTTPException(
-                status_code=401,
-                detail="Invalid Credentials"
+def login_page(user:User_login_schema, db: Session = Depends(get_db)):
+    stmt = select(User).where(User.email == user.email)
+    existing_user = db.execute(stmt).scalar_one_or_none()
+
+    if existing_user:
+        is_password_true = verify_password(user.password, existing_user.password)
+        if is_password_true:
+            token = create_access_token(
+                existing_user.id, existing_user.email, existing_user.firstName
             )
+            return{
+                "message": "Login Successful!",
+                "access_token": token,
+                "token_type": "Bearer"
+            }
+        raise HTTPException(
+            status_code=401,
+            detail="Invalid Credentials"
+        )
    
     raise HTTPException(
         status_code=401,

@@ -1,5 +1,12 @@
 from pydantic import BaseModel, Field, EmailStr, field_validator
 from time import time
+
+class User_Base(BaseModel):
+    firstName: str
+    lastName: str
+    email:str
+
+
 class User_Schema(BaseModel):
     id: int  = Field(default_factory=lambda: int(time() * 1000))
     firstName: str = Field(
@@ -33,3 +40,9 @@ class User_Create_Schema(BaseModel):
 class User_login_schema(BaseModel):
     email: str
     password: str
+
+class User_Response_Schema(User_Base):
+    id: int
+
+    class Config:
+        from_attributes = True
